@@ -15,6 +15,7 @@ namespace CEFBrowser
         public Form1()
         {
             InitializeComponent();
+            chromiumWebBrowser1.Load("google.com");
         }
     }
 }
