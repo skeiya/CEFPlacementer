@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS0618: 'ChromiumWebBrowser.ChromiumWebBrowser()' は旧形式です ('Should only be used by the WinForms Designer. Use the ChromiumWebBrowser(string, IRequestContext) constructor overload instead.')
+dotnet_diagnostic.CS0618.severity = none
