@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,21 @@ namespace SampleClient
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Process.Start("CEFPlacementer.exe", "-Load google.com -Position 100:100:400:200");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Process.Start("CEFPlacementer.exe", "-Load Yahoo.co.jp");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Process.Start("CEFPlacementer.exe", "-Close");
         }
     }
 }
