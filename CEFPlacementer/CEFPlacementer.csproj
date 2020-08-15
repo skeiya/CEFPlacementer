@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6F3961CB-2B00-4AC4-87BE-48E935E3B28C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>CEFPlacementer</RootNamespace>
     <AssemblyName>CEFPlacementer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
