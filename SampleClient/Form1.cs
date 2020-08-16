@@ -10,6 +10,12 @@ namespace SampleClient
         public Form1()
         {
             InitializeComponent();
+            this.FormClosed += Form1_FormClosed;
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Process.Start("CEFPlacementer.exe", "-c");
         }
 
         private void button1_Click(object sender, EventArgs e)
