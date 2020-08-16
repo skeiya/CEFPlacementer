@@ -1,12 +1,10 @@
 ﻿using CommandLine;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace CEFPlacementer
 {
@@ -29,7 +27,7 @@ namespace CEFPlacementer
 
         private static void Close()
         {
-            throw new NotImplementedException();
+            KillExsistingTarget();
         }
 
         private static Rectangle? GetPosition(string positionString)
@@ -46,11 +44,16 @@ namespace CEFPlacementer
             }
         }
 
-        private static void Load(string uRL, Rectangle? pos)
+        private static void Load(string url, Rectangle? pos)
+        {
+            KillExsistingTarget();
+            Launch(url, pos);
+        }
+
+        private static void KillExsistingTarget()
         {
             var target = FindTarget();
             if (target != null) Kill(target);
-            Launch(uRL);
         }
 
         private static void Kill(Process target)
@@ -58,9 +61,13 @@ namespace CEFPlacementer
             target.Kill();
         }
 
-        private static void Launch(string uRL)
+        private static void Launch(string url, Rectangle? pos)
         {
-            Process.Start(TargetName, uRL);
+            var p = Process.Start(TargetName, url);
+            if (!pos.HasValue) return;
+            var rect = pos.Value;
+            Thread.Sleep(1000);
+            MoveWindow(p.MainWindowHandle, rect.X, rect.Y, rect.Width, rect.Height, true);
         }
 
         private static Process FindTarget()
@@ -74,5 +81,8 @@ namespace CEFPlacementer
 
         private static string TargetName => TargetProcessName + ".exe";
         private static string TargetProcessName => "CEFBrowser";
+
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     }
 }
