@@ -49,13 +49,13 @@ namespace CEFPlacementer
         private static void Load(string uRL, Rectangle? pos)
         {
             var target = FindTarget();
-            if (target == null)
-            {
-                Launch(uRL);
-                return;
-            }
-            target.StandardInput.WriteLine(uRL);
-            target.StandardInput.Flush();
+            if (target != null) Kill(target);
+            Launch(uRL);
+        }
+
+        private static void Kill(Process target)
+        {
+            target.Kill();
         }
 
         private static void Launch(string uRL)
@@ -65,13 +65,14 @@ namespace CEFPlacementer
 
         private static Process FindTarget()
         {
-            foreach(var p in Process.GetProcesses())
+            foreach (var p in Process.GetProcesses())
             {
-                if (p.ProcessName.Equals(TargetName)) return p;
+                if (p.ProcessName.Equals(TargetProcessName)) return p;
             }
             return null;
         }
 
-        private static string TargetName => "CEFBrowser.exe";
+        private static string TargetName => TargetProcessName + ".exe";
+        private static string TargetProcessName => "CEFBrowser";
     }
 }
