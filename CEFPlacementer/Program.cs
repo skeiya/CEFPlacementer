@@ -63,10 +63,13 @@ namespace CEFPlacementer
 
         private static void Launch(string url, Rectangle? pos)
         {
-            var p = Process.Start(TargetName, url);
+            var info = new ProcessStartInfo(TargetName, url);
+            var p = Process.Start(info);
+            Thread.Sleep(1000);
+            SetWindowPos(p.MainWindowHandle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+
             if (!pos.HasValue) return;
             var rect = pos.Value;
-            Thread.Sleep(1000);
             MoveWindow(p.MainWindowHandle, rect.X, rect.Y, rect.Width, rect.Height, true);
         }
 
@@ -84,5 +87,13 @@ namespace CEFPlacementer
 
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+        [DllImport("user32.dll")]
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+        static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+        const UInt32 SWP_NOSIZE = 0x0001;
+        const UInt32 SWP_NOMOVE = 0x0002;
+        const UInt32 SWP_SHOWWINDOW = 0x0040;
     }
 }
