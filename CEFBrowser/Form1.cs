@@ -15,7 +15,14 @@ namespace CEFBrowser
         public Form1()
         {
             InitializeComponent();
-            chromiumWebBrowser1.Load("google.com");
+            this.Shown += Form1_Shown;
         }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            chromiumWebBrowser1.Load(URL);
+        }
+
+        public string URL { get; internal set; } = "google.com";
     }
 }
